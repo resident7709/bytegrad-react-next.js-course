@@ -2,7 +2,7 @@ import { useRef, useState } from 'react';
 
 import Button from './Button';
 
-export default function AddItemForm({ handleAddItem }) {
+export default function AddItemForm({ onAddItem }) {
   const [itemText, setItemText] = useState('');
   const inputRef = useRef();
 
@@ -10,12 +10,12 @@ export default function AddItemForm({ handleAddItem }) {
     e.preventDefault();
     // basic validation
     if (!itemText) {
-      alert('Please enter an item');
+      alert('Please add an item');
       inputRef.current.focus();
       return;
     }
 
-    handleAddItem(itemText);
+    onAddItem(itemText);
     setItemText('');
   };
 
@@ -23,12 +23,12 @@ export default function AddItemForm({ handleAddItem }) {
     <form onSubmit={handleSubmit}>
       <h2>Add an Item</h2>
       <input
-        value={itemText}
-        autoFocus={true}
         ref={inputRef}
+        value={itemText}
         onChange={e => {
           setItemText(e.target.value);
         }}
+        autoFocus
       />
       <Button>Add to list</Button>
     </form>
