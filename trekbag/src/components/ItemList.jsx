@@ -38,10 +38,9 @@ export default function ItemList() {
       {items.length > 0 && (
         <section className='sorting'>
           <Select
-            value={sortingOptions[0]}
-            options={sortingOptions}
             onChange={option => setSortBy(option.value)}
-            onMenuOpen={() => console.log('Menu opened')}
+            defaultValue={sortingOptions[0]}
+            options={sortingOptions}
           />
         </section>
       )}
