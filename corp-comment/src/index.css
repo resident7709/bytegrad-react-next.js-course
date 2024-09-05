@@ -8,7 +8,6 @@
   padding: 0;
   box-sizing: border-box;
 }
-
 ul,
 ol {
   list-style: none;
@@ -29,7 +28,6 @@ button {
   outline: initial; /* create alternative for focus state */
   background-color: initial;
 }
-
 /* UTILITIES */
 .u-bold {
   font-weight: 600;
@@ -43,7 +41,6 @@ button {
 .u-transparent {
   color: rgba(255, 255, 255, 0.8);
 }
-
 /* KEYFRAMES */
 @keyframes intro {
   0% {
@@ -53,7 +50,6 @@ button {
     transform: scale(1);
   }
 }
-
 @keyframes spinner {
   0% {
     transform: translateX(-50%) rotate(0deg);
@@ -62,7 +58,6 @@ button {
     transform: translateX(-50%) rotate(360deg);
   }
 }
-
 /* BASE */
 body {
   font-family: 'Poppins', sans-serif;
@@ -71,14 +66,12 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-
   scrollbar-width: none; /* Firefox */
 }
 .body::-webkit-scrollbar {
   /* Chrome, Safari, Edge, Opera, All browsers on iOS */
   display: none;
 }
-
 /* APP */
 .app {
   position: relative;
@@ -86,7 +79,6 @@ body {
   justify-content: center;
   height: 850px;
 }
-
 /* CONTAINER */
 .container {
   width: 715px;
@@ -95,7 +87,6 @@ body {
   overflow: hidden;
   animation: intro 0.4s;
 }
-
 /* HEADER */
 header {
   height: 277px;
@@ -119,7 +110,6 @@ header {
 .pattern::selection {
   background-color: initial;
 }
-
 /* HEADINGS */
 h1 {
   font-weight: 700;
@@ -133,7 +123,6 @@ h1 *::selection {
   color: rgba(255, 255, 255, 0.85);
   background-color: rgba(255, 255, 255, 0.05);
 }
-
 /* LOGO */
 .logo {
   height: 27.5px;
@@ -147,7 +136,6 @@ h1 *::selection {
   backface-visibility: hidden;
   transform: translateZ(0);
 }
-
 /* FORM */
 .form {
   margin-top: 20px;
@@ -218,7 +206,6 @@ form div:last-child {
   padding: 0 20px;
   margin-top: -8px;
 }
-
 /* COUNTER */
 form div:last-child p {
   font-weight: 500;
@@ -231,7 +218,6 @@ form div:last-child p > *::selection {
   color: rgba(255, 255, 255, 0.85);
   background-color: rgba(255, 255, 255, 0.05);
 }
-
 /* SUBMIT BTN */
 form button {
   color: #161921;
@@ -267,7 +253,6 @@ form button span::selection {
   color: rgba(0, 0, 0, 0.85);
   background-color: rgba(0, 0, 0, 0.1);
 }
-
 /* FEEDBACKS */
 .feedback-list {
   height: 573px;
@@ -275,7 +260,6 @@ form button span::selection {
   overflow-x: hidden;
   /* background-color: #F3F6F8; */
   background-color: #f7f8f9;
-
   scrollbar-color: #979ca0 #dbdfe4; /* Firefox */
   scrollbar-width: thin; /* Firefox */
 }
@@ -296,7 +280,6 @@ form button span::selection {
   /* Chrome, Safari, Edge, Opera, All browsers on iOS */
   background-color: #787c80;
 }
-
 /* FEEDBACK ITEM */
 .feedback {
   display: grid;
@@ -382,7 +365,6 @@ form button span::selection {
   font-size: 13px;
   margin-top: 1px;
   transition: all 0.2s;
-
   display: -webkit-box;
   max-width: 100%;
   -webkit-line-clamp: 2;
@@ -395,7 +377,6 @@ form button span::selection {
   margin-left: auto;
   transition: all 0.2s;
 }
-
 /* UPVOTE BTN */
 .feedback > button {
   cursor: pointer;
@@ -433,7 +414,6 @@ form button span::selection {
   font-size: 11px;
   margin-top: -1px;
 }
-
 /* HASHTAGS */
 .hashtags {
   position: absolute;
@@ -444,7 +424,6 @@ form button span::selection {
   max-width: max-content;
   margin-bottom: 11px;
 }
-
 /* HASHTAG */
 .hashtags li button {
   align-self: flex-start;
@@ -468,7 +447,6 @@ form button span::selection {
 .hashtags li button::selection {
   background-color: rgba(255, 255, 255, 0.1);
 }
-
 /* FOOTER */
 .footer {
   position: absolute;
@@ -476,7 +454,6 @@ form button span::selection {
   left: -225px;
   bottom: 174px;
 }
-
 /* COPYRIGHT */
 .footer > small {
   color: #a6adb5;
@@ -491,7 +468,6 @@ form button span::selection {
 .footer > small > p > a {
   text-decoration: underline;
 }
-
 /* SPINNER */
 .spinner {
   position: absolute;
@@ -511,7 +487,6 @@ h1 > span {
   font-style: italic;
   opacity: 0.85;
 }
-
 /* MEDIA QUERIES */
 @media (max-height: 925px) {
   body {
@@ -520,11 +495,26 @@ h1 > span {
 }
 @media (max-width: 1050px) {
   .app {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     flex-direction: column-reverse;
     height: initial;
   }
   .hashtags {
-    display: none;
+    position: initial;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin: 2rem 0.5rem;
+    width: 80%;
+  }
+  li.feedback {
+    margin-top: 12px;
+  }
+  p {
+    margin-right: 13px;
   }
   .footer {
     transform: initial;
@@ -588,5 +578,9 @@ h1 > span {
   }
   .footer {
     padding: 0 15px;
+  }
+  .hashtags {
+    margin: 1rem 0.5rem;
+    width: 93%;
   }
 }
