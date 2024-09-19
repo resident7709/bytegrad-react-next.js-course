@@ -110,3 +110,5 @@ export function useActiveId() {
 
   return activeId;
 }
+
+export function useLocalStorage() {}
