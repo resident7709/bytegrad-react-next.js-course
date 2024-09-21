@@ -10,9 +10,9 @@ import SearchForm from './components/SearchForm';
 import { RESULTS_PER_PAGE } from './lib/constants';
 import { PageDirection, sortBy } from './lib/types';
 import ResultsCount from './components/ResultsCount';
-import { useDebounce, useJobItems } from './lib/hooks';
 import Header, { HeaderTop } from './components/Header';
 import JobItemContent from './components/JobItemContent';
+import { useDebounce, useSearchQuery } from './lib/hooks';
 import BookmarksButton from './components/BookmarksButton';
 import Sidebar, { SidebarTop } from './components/Sidebar';
 import SortingControls from './components/SortingControls';
@@ -22,7 +22,7 @@ function App() {
   // state
   const [searchText, setSearchText] = useState('');
   const debouncedSearchText = useDebounce(searchText, 250);
-  const { jobItems, isLoading } = useJobItems(debouncedSearchText);
+  const { jobItems, isLoading } = useSearchQuery(debouncedSearchText);
   const [currentPage, setCurrentPage] = useState(1);
   const [sortBy, setSortBy] = useState<sortBy>('relevant');
 
