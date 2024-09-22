@@ -1,9 +1,9 @@
 import Spinner from './Spinner';
 import BookmarkIcon from './BookmarkIcon';
-import { useActiveId, useJobItem } from '../lib/hooks';
+import { useActiveIdContext, useJobItem } from '../lib/hooks';
 
 export default function JobItemContent() {
-  const activeId = useActiveId();
+  const { activeId } = useActiveIdContext();
   const { jobItem, isLoading } = useJobItem(activeId);
 
   if (isLoading) {
