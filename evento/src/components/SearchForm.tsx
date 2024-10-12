@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function SearchForm() {
-  const [searchText, setSearchText] = useState('');
+  const [searchText, setSearchText] = useState("");
   const router = useRouter();
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -16,16 +16,13 @@ export default function SearchForm() {
   };
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className='w-full sm:w-[580px]'
-    >
+    <form onSubmit={handleSubmit} className="w-full sm:w-[580px]">
       <input
-        placeholder='Search events by city..'
+        placeholder="Search events by city.."
         spellCheck={false}
         value={searchText}
-        onChange={e => setSearchText(e.target.value)}
-        className='w-full h-16 rounded-lg bg-white/[7%] px-6 outline-none ring-accent/50 transition focus:ring-2 focus:bg-white/10'
+        onChange={(e) => setSearchText(e.target.value)}
+        className="h-16 w-full rounded-lg bg-white/[7%] px-6 outline-none ring-accent/50 transition focus:bg-white/10 focus:ring-2"
       />
     </form>
   );
