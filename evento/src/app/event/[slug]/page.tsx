@@ -1,6 +1,7 @@
 import Image from 'next/image';
 
 import H1 from '@/components/H1';
+import { section } from 'framer-motion/client';
 
 type EventPageProps = {
   params: {
@@ -49,13 +50,41 @@ export default async function EventPage({ params }: EventPageProps) {
             <p className='whitespace-nowrap text-xl text-white/75'>
               Organized by <span className='italic'>{event.organizerName}</span>
             </p>
-            <button className='bg-blur state-effects mt-5 w-[95vw] rounded-md border-2 border-white/10 bg-white/20 py-2 text-lg capitalize transition hover:scale-105 focus:scale-105 active:scale-[1.02] sm:w-full lg:mt-auto'>
+            <button
+              className='bg-blur state-effects mt-5 w-[95vw] rounded-md border-2 border-white/10 bg-white/20
+              py-2 text-lg capitalize sm:w-full lg:mt-auto state-effects'
+            >
               Get tickets
             </button>
           </div>
         </div>
       </section>
-      <div></div>
+      <div className='text-center px-5 py-16 min-h-[75vh]'>
+        <Section>
+          <SectionHeader>About this event</SectionHeader>
+          <SectionText>{event.description}</SectionText>
+        </Section>
+        <Section>
+          <SectionHeader>Location</SectionHeader>
+          <SectionText>{event.location}</SectionText>
+        </Section>
+      </div>
     </main>
+  );
+}
+
+function Section({ children }: { children: React.ReactNode }) {
+  return <section className='mb-12'>{children}</section>;
+}
+
+function SectionHeader({ children }: { children: React.ReactNode }) {
+  return <h3 className='text-2xl mb-8'>{children}</h3>;
+}
+
+function SectionText({ children }: { children: React.ReactNode }) {
+  return (
+    <p className='text-lg leading-8 text-white/75 max-w-4xl mx-auto'>
+      {children}
+    </p>
   );
 }
