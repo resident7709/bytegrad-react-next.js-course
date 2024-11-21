@@ -5,7 +5,7 @@ import SearchForm from '@/components/search-form';
 import PetDetails from '@/components/pet-details';
 import ContentBlock from '@/components/content-block';
 
-export default function Page() {
+export default async function Page() {
   return (
     <main>
       <div className='flex items-center justify-between py-8 text-white'>
