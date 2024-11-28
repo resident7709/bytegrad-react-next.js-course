@@ -8,15 +8,16 @@ import { usePetContext } from '@/lib/hooks';
 
 type PetFormProps = {
   actionType: 'add' | 'edit';
+  onFormSubmit: () => void;
 };
 
-export default function PetForm({ actionType }: PetFormProps) {
-  const { handleAddPet } = usePetContext();
+export default function PetForm({ actionType, onFormSubmit }: PetFormProps) {
+  const { handleAddPet, handleEditPet, selectedPet } = usePetContext();
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const formData = new FormData(e.currentTarget);
-    const newPet = {
+    const pet = {
       name: formData.get('name') as string,
       ownerName: formData.get('owner') as string,
       imageUrl:
@@ -26,7 +27,13 @@ export default function PetForm({ actionType }: PetFormProps) {
       notes: formData.get('notes') as string,
     };
 
-    handleAddPet(newPet);
+    if (actionType === 'add') {
+      handleAddPet(pet);
+    } else if (actionType === 'edit') {
+      handleEditPet(selectedPet!.id, pet);
+    }
+
+    onFormSubmit();
   };
 
   return (
@@ -42,6 +49,7 @@ export default function PetForm({ actionType }: PetFormProps) {
             type='text'
             name='name'
             required
+            defaultValue={actionType === 'edit' ? selectedPet?.name : ''}
           />
         </div>
         <div className='space-y-1'>
@@ -51,6 +59,7 @@ export default function PetForm({ actionType }: PetFormProps) {
             type='text'
             name='owner'
             required
+            defaultValue={actionType === 'edit' ? selectedPet?.ownerName : ''}
           />
         </div>
         <div className='space-y-1'>
@@ -59,6 +68,7 @@ export default function PetForm({ actionType }: PetFormProps) {
             id='imageUrl'
             type='text'
             name='imageUrl'
+            defaultValue={actionType === 'edit' ? selectedPet?.imageUrl : ''}
           />
         </div>
         <div className='space-y-1'>
@@ -68,6 +78,7 @@ export default function PetForm({ actionType }: PetFormProps) {
             type='number'
             name='age'
             required
+            defaultValue={actionType === 'edit' ? selectedPet?.age : ''}
           />
         </div>
         <div className='space-y-1'>
@@ -77,6 +88,7 @@ export default function PetForm({ actionType }: PetFormProps) {
             name='notes'
             required
             rows={3}
+            defaultValue={actionType === 'edit' ? selectedPet?.notes : ''}
           />
         </div>
       </div>
