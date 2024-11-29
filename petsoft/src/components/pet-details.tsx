@@ -37,7 +37,7 @@ function EmptyView() {
 }
 
 function PetImage({ pet }: Props) {
-  const { handleCheckoutPet } = usePetContext();
+  const { removePet } = usePetContext();
 
   return (
     <div className='flex items-center border-b border-light bg-white px-8 py-5'>
@@ -53,7 +53,7 @@ function PetImage({ pet }: Props) {
         <PetButton actionType='edit'>Edit</PetButton>
         <PetButton
           actionType='checkout'
-          onClick={() => handleCheckoutPet(pet.id)}
+          onClick={() => removePet(pet.id)}
         >
           Checkout
         </PetButton>
