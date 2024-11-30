@@ -1,11 +1,12 @@
 'use client';
 
+import { toast } from 'sonner';
 import { Input } from './ui/input';
 import { Label } from './ui/label';
 import PetFormBtn from './pet-form-btn';
 import { Textarea } from './ui/textarea';
 import { usePetContext } from '@/lib/hooks';
-import { addNewPet } from '@/actions/actions';
+import { addNewPet, editPet } from '@/actions/actions';
 
 type PetFormProps = {
   actionType: 'add' | 'edit';
@@ -18,7 +19,19 @@ export default function PetForm({ actionType, onFormSubmit }: PetFormProps) {
   return (
     <form
       action={async formData => {
-        await addNewPet(formData);
+        if (actionType === 'add') {
+          const error = await addNewPet(formData);
+          if (error) {
+            toast.warning(error.message);
+            return;
+          }
+        } else if (actionType === 'edit') {
+          const error = await editPet(selectedPet?.id, formData);
+          if (error) {
+            toast.warning(error.message);
+            return;
+          }
+        }
         onFormSubmit();
       }}
       className='flex flex-col'

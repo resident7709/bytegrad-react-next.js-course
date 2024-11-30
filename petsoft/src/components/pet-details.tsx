@@ -1,10 +1,12 @@
 'use client';
 
 import Image from 'next/image';
+import { useTransition } from 'react';
 
 import { Pet } from '@/lib/types';
 import PetButton from './pet-button';
 import { usePetContext } from '@/lib/hooks';
+import { deletePet } from '@/actions/actions';
 
 type Props = {
   pet: Pet;
@@ -38,6 +40,7 @@ function EmptyView() {
 
 function PetImage({ pet }: Props) {
   const { removePet } = usePetContext();
+  const [isPending, startTransition] = useTransition();
 
   return (
     <div className='flex items-center border-b border-light bg-white px-8 py-5'>
@@ -53,7 +56,11 @@ function PetImage({ pet }: Props) {
         <PetButton actionType='edit'>Edit</PetButton>
         <PetButton
           actionType='checkout'
-          onClick={() => removePet(pet.id)}
+          onClick={async () => {
+            startTransition(async () => {
+              await deletePet(pet.id);
+            });
+          }}
         >
           Checkout
         </PetButton>

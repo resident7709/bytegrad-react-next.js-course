@@ -1,6 +1,7 @@
 import prisma from '@/lib/db';
 import AppHeader from '@/components/app-header';
 import AppFooter from '@/components/app-footer';
+import { Toaster } from '@/components/ui/sonner';
 import BackgroundPattern from '@/components/background-pattern';
 import PetContextProvider from '@/contexts/pet-context-provider';
 import SearchContextProvider from '@/contexts/search-context-provider';
@@ -22,6 +23,7 @@ export default async function Layout({
         </SearchContextProvider>
         <AppFooter />
       </div>
+      <Toaster position='bottom-right' />
     </>
   );
 }
