@@ -2,7 +2,7 @@
 
 import { Input } from './ui/input';
 import { Label } from './ui/label';
-import { Button } from './ui/button';
+import PetFormBtn from './pet-form-btn';
 import { Textarea } from './ui/textarea';
 import { usePetContext } from '@/lib/hooks';
 import { addNewPet } from '@/actions/actions';
@@ -17,7 +17,10 @@ export default function PetForm({ actionType, onFormSubmit }: PetFormProps) {
 
   return (
     <form
-      action={addNewPet}
+      action={async formData => {
+        await addNewPet(formData);
+        onFormSubmit();
+      }}
       className='flex flex-col'
     >
       <div className='space-y-3'>
@@ -71,12 +74,7 @@ export default function PetForm({ actionType, onFormSubmit }: PetFormProps) {
           />
         </div>
       </div>
-      <Button
-        type='submit'
-        className='mt-5 self-end'
-      >
-        {actionType === 'add' ? 'Add pet' : 'Edit pet'}
-      </Button>
+      <PetFormBtn actionType={actionType} />
     </form>
   );
 }

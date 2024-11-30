@@ -3,9 +3,10 @@
 import { revalidatePath } from 'next/cache';
 
 import prisma from '@/lib/db';
+import { delay } from '@/lib/utils';
 
 export async function addNewPet(formData) {
-  console.log(formData);
+  await delay(2000);
 
   await prisma.pet.create({
     data: {
