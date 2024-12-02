@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { flushSync } from 'react-dom';
 import { PlusIcon } from '@radix-ui/react-icons';
 
 import {
@@ -61,7 +62,10 @@ export default function PetButton({
         </DialogHeader>
         <PetForm
           actionType={actionType}
-          onFormSubmit={() => setIsFormOpen(false)}
+          onFormSubmit={() => {
+            flushSync(() => setIsFormOpen(false));
+            setIsFormOpen(false);
+          }}
         />
       </DialogContent>
     </Dialog>

@@ -45,22 +45,19 @@ function PetImage({ pet }: Props) {
   return (
     <div className='flex items-center border-b border-light bg-white px-8 py-5'>
       <Image
-        src={pet?.imageUrl}
+        src={pet.imageUrl}
         alt='Pet image'
         width={75}
         height={75}
         className='h-[75px] w-[75px] rounded-full object-cover'
       />
-      <h2 className='ml-5 text-3xl font-semibold leading-7'>{pet?.name}</h2>
+      <h2 className='ml-5 text-3xl font-semibold leading-7'>{pet.name}</h2>
       <div className='ml-auto space-x-2'>
         <PetButton actionType='edit'>Edit</PetButton>
         <PetButton
           actionType='checkout'
-          onClick={async () => {
-            startTransition(async () => {
-              await deletePet(pet.id);
-            });
-          }}
+          disabled={isPending}
+          onClick={async () => await removePet(pet.id)}
         >
           Checkout
         </PetButton>

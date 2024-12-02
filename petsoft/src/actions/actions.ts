@@ -5,20 +5,12 @@ import { revalidatePath } from 'next/cache';
 import prisma from '@/lib/db';
 import { delay } from '@/lib/utils';
 
-export async function addNewPet(formData) {
+export async function addNewPet(pet) {
   await delay(2000);
 
   try {
     await prisma.pet.create({
-      data: {
-        name: formData.get('name'),
-        ownerName: formData.get('owner'),
-        imageUrl:
-          formData.get('imageUrl') ||
-          'https://bytegrad.com/course-assets/react-nextjs/pet-placeholder.png',
-        age: Number(formData.get('age')),
-        notes: formData.get('notes'),
-      },
+      data: pet,
     });
   } catch (error) {
     return { message: 'Failed to add pet' };
@@ -27,7 +19,7 @@ export async function addNewPet(formData) {
   revalidatePath('/app', 'layout');
 }
 
-export async function editPet(petId, formData) {
+export async function editPet(petId, newPetData) {
   await delay(2000);
 
   try {
@@ -35,15 +27,7 @@ export async function editPet(petId, formData) {
       where: {
         id: petId,
       },
-      data: {
-        name: formData.get('name'),
-        ownerName: formData.get('owner'),
-        imageUrl:
-          formData.get('imageUrl') ||
-          'https://bytegrad.com/course-assets/react-nextjs/pet-placeholder.png',
-        age: Number(formData.get('age')),
-        notes: formData.get('notes'),
-      },
+      data: newPetData,
     });
   } catch (error) {
     return { message: 'Failed to edit pet' };
