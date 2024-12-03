@@ -4,9 +4,11 @@ import { revalidatePath } from 'next/cache';
 
 import prisma from '@/lib/db';
 import { delay } from '@/lib/utils';
+import { Pet } from '@prisma/client';
+import { PetEssentials } from '@/lib/types';
 
-export async function addNewPet(pet) {
-  await delay(2000);
+export async function addNewPet(pet: PetEssentials) {
+  await delay(1000);
 
   try {
     await prisma.pet.create({
@@ -19,8 +21,8 @@ export async function addNewPet(pet) {
   revalidatePath('/app', 'layout');
 }
 
-export async function editPet(petId, newPetData) {
-  await delay(2000);
+export async function editPet(petId: Pet['id'], newPetData: PetEssentials) {
+  await delay(1000);
 
   try {
     await prisma.pet.update({
@@ -36,8 +38,8 @@ export async function editPet(petId, newPetData) {
   revalidatePath('/app', 'layout');
 }
 
-export async function deletePet(petId) {
-  await delay(2000);
+export async function deletePet(petId: Pet['id']) {
+  await delay(1000);
 
   try {
     await prisma.pet.delete({

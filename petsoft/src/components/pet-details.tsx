@@ -1,12 +1,10 @@
 'use client';
 
 import Image from 'next/image';
-import { useTransition } from 'react';
 
-import { Pet } from '@/lib/types';
 import PetButton from './pet-button';
+import { Pet } from '@prisma/client';
 import { usePetContext } from '@/lib/hooks';
-import { deletePet } from '@/actions/actions';
 
 type Props = {
   pet: Pet;
@@ -40,7 +38,6 @@ function EmptyView() {
 
 function PetImage({ pet }: Props) {
   const { removePet } = usePetContext();
-  const [isPending, startTransition] = useTransition();
 
   return (
     <div className='flex items-center border-b border-light bg-white px-8 py-5'>
@@ -56,7 +53,6 @@ function PetImage({ pet }: Props) {
         <PetButton actionType='edit'>Edit</PetButton>
         <PetButton
           actionType='checkout'
-          disabled={isPending}
           onClick={async () => await removePet(pet.id)}
         >
           Checkout
@@ -73,11 +69,11 @@ function PetInfo({ pet }: Props) {
         <h3 className='text-[13px] font-medium uppercase text-zinc-700'>
           Owner name
         </h3>
-        <p className='text-zinx-800 mt-1 text-lg'>{pet?.ownerName}</p>
+        <p className='text-zinx-800 mt-1 text-lg'>{pet.ownerName}</p>
       </div>
       <div>
         <h3 className='text-[13px] font-medium uppercase text-zinc-700'>Age</h3>
-        <p className='text-zinx-800 mt-1 text-lg'>{pet?.age}</p>
+        <p className='text-zinx-800 mt-1 text-lg'>{pet.age}</p>
       </div>
     </div>
   );
@@ -86,7 +82,7 @@ function PetInfo({ pet }: Props) {
 function PetNotes({ pet }: Props) {
   return (
     <section className='mx-8 mb-9 flex-1 rounded-md border border-light bg-white px-7 py-5'>
-      {pet?.notes}
+      {pet.notes}
     </section>
   );
 }
