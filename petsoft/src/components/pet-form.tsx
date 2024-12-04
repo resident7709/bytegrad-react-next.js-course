@@ -15,14 +15,6 @@ type PetFormProps = {
   onFormSubmit: () => void;
 };
 
-type TPetFormData = {
-  name: string;
-  owner: string;
-  imageUrl: string;
-  age: number;
-  notes: string;
-};
-
 const petFormSchema = z.object({
   name: z.string().trim().min(1, { message: 'Name is required' }).max(30, {
     message: 'Name must be less than 30 characters',
@@ -51,6 +43,8 @@ const petFormSchema = z.object({
     }),
   notes: z.union([z.literal(''), z.string().trim().max(1111)]),
 });
+
+type TPetFormData = z.infer<typeof petFormSchema>;
 
 export default function PetForm({ actionType, onFormSubmit }: PetFormProps) {
   const { selectedPet, addPet, updatePet } = usePetContext();
