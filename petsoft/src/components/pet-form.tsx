@@ -1,5 +1,9 @@
 'use client';
 
+import { z } from 'zod';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+
 import { Input } from './ui/input';
 import { Label } from './ui/label';
 import PetFormBtn from './pet-form-btn';
@@ -11,12 +15,60 @@ type PetFormProps = {
   onFormSubmit: () => void;
 };
 
+type TPetFormData = {
+  name: string;
+  owner: string;
+  imageUrl: string;
+  age: number;
+  notes: string;
+};
+
+const petFormSchema = z.object({
+  name: z.string().trim().min(1, { message: 'Name is required' }).max(30, {
+    message: 'Name must be less than 30 characters',
+  }),
+  owner: z
+    .string()
+    .trim()
+    .min(1, { message: 'Owner name is required' })
+    .max(30, { message: 'Owner name must be less than 30 characters' }),
+  imageUrl: z.union([
+    z.literal(''),
+    z.string().trim().url({ message: 'Invalid image URL' }),
+  ]),
+  age: z
+    .union([
+      z
+        .number()
+        .int({ message: 'Age must be an integer' })
+        .positive()
+        .min(0, { message: 'Age must be greater than 0' })
+        .max(111, { message: 'Age must be less than 111' }),
+      z.string().trim().min(1, { message: 'Age is required' }),
+    ])
+    .refine(value => typeof value === 'number', {
+      message: 'Age must be a number',
+    }),
+  notes: z.union([z.literal(''), z.string().trim().max(1111)]),
+});
+
 export default function PetForm({ actionType, onFormSubmit }: PetFormProps) {
   const { selectedPet, addPet, updatePet } = usePetContext();
+
+  const {
+    register,
+    trigger,
+    formState: { errors },
+  } = useForm<TPetFormData>({
+    resolver: zodResolver(petFormSchema),
+  });
 
   return (
     <form
       action={async formData => {
+        const isValid = await trigger();
+        if (!isValid) return;
+
         onFormSubmit();
 
         const petData = {
@@ -42,50 +94,51 @@ export default function PetForm({ actionType, onFormSubmit }: PetFormProps) {
           <Label htmlFor='name'>Name</Label>
           <Input
             id='name'
-            type='text'
-            name='name'
-            required
-            defaultValue={actionType === 'edit' ? selectedPet?.name : ''}
+            {...register('name', {
+              required: 'Name is required',
+            })}
           />
+          {errors.name && <p className='text-red-500'>{errors.name.message}</p>}
         </div>
         <div className='space-y-1'>
           <Label htmlFor='owner'>Owner</Label>
           <Input
             id='owner'
-            type='text'
-            name='owner'
-            required
-            defaultValue={actionType === 'edit' ? selectedPet?.ownerName : ''}
+            {...register('owner', {
+              required: 'Owner name is required',
+            })}
           />
+          {errors.owner && (
+            <p className='text-red-500'>{errors.owner.message}</p>
+          )}
         </div>
         <div className='space-y-1'>
           <Label htmlFor='imageUrl'>Image URL</Label>
           <Input
             id='imageUrl'
-            type='text'
-            name='imageUrl'
-            defaultValue={actionType === 'edit' ? selectedPet?.imageUrl : ''}
+            {...register('imageUrl')}
           />
+          {errors.imageUrl && (
+            <p className='text-red-500'>{errors.imageUrl.message}</p>
+          )}
         </div>
         <div className='space-y-1'>
           <Label htmlFor='age'>Age</Label>
           <Input
             id='age'
-            type='number'
-            name='age'
-            required
-            defaultValue={actionType === 'edit' ? selectedPet?.age : ''}
+            {...register('age')}
           />
+          {errors.age && <p className='text-red-500'>{errors.age.message}</p>}
         </div>
         <div className='space-y-1'>
           <Label htmlFor='notes'>Notes</Label>
           <Textarea
             id='notes'
-            name='notes'
-            required
-            rows={3}
-            defaultValue={actionType === 'edit' ? selectedPet?.notes : ''}
+            {...register('notes')}
           />
+          {errors.notes && (
+            <p className='text-red-500'>{errors.notes.message}</p>
+          )}
         </div>
       </div>
       <PetFormBtn actionType={actionType} />
