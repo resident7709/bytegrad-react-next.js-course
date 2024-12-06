@@ -9,42 +9,13 @@ import { Label } from './ui/label';
 import PetFormBtn from './pet-form-btn';
 import { Textarea } from './ui/textarea';
 import { usePetContext } from '@/lib/hooks';
+import { DEFAULT_PET_IMAGE } from '@/lib/constants';
+import { petFormSchema, TPetFormData } from '@/lib/validations';
 
 type PetFormProps = {
   actionType: 'add' | 'edit';
   onFormSubmit: () => void;
 };
-
-const petFormSchema = z.object({
-  name: z.string().trim().min(1, { message: 'Name is required' }).max(30, {
-    message: 'Name must be less than 30 characters',
-  }),
-  owner: z
-    .string()
-    .trim()
-    .min(1, { message: 'Owner name is required' })
-    .max(30, { message: 'Owner name must be less than 30 characters' }),
-  imageUrl: z.union([
-    z.literal(''),
-    z.string().trim().url({ message: 'Invalid image URL' }),
-  ]),
-  age: z
-    .union([
-      z
-        .number()
-        .int({ message: 'Age must be an integer' })
-        .positive()
-        .min(0, { message: 'Age must be greater than 0' })
-        .max(111, { message: 'Age must be less than 111' }),
-      z.string().trim().min(1, { message: 'Age is required' }),
-    ])
-    .refine(value => typeof value === 'number', {
-      message: 'Age must be a number',
-    }),
-  notes: z.union([z.literal(''), z.string().trim().max(1111)]),
-});
-
-type TPetFormData = z.infer<typeof petFormSchema>;
 
 export default function PetForm({ actionType, onFormSubmit }: PetFormProps) {
   const { selectedPet, addPet, updatePet } = usePetContext();
@@ -52,28 +23,29 @@ export default function PetForm({ actionType, onFormSubmit }: PetFormProps) {
   const {
     register,
     trigger,
+    getValues,
     formState: { errors },
   } = useForm<TPetFormData>({
     resolver: zodResolver(petFormSchema),
+    defaultValues: {
+      name: selectedPet?.name,
+      ownerName: selectedPet?.ownerName,
+      imageUrl: selectedPet?.imageUrl,
+      age: selectedPet?.age,
+      notes: selectedPet?.notes,
+    },
   });
 
   return (
     <form
-      action={async formData => {
+      action={async () => {
         const isValid = await trigger();
         if (!isValid) return;
 
         onFormSubmit();
 
-        const petData = {
-          name: formData.get('name') as string,
-          ownerName: formData.get('owner') as string,
-          imageUrl:
-            (formData.get('imageUrl') as string) ||
-            'https://bytegrad.com/course-assets/react-nextjs/pet-placeholder.png',
-          age: Number(formData.get('age')),
-          notes: formData.get('notes') as string,
-        };
+        const petData = getValues();
+        petData.imageUrl = petData.imageUrl || DEFAULT_PET_IMAGE;
 
         if (actionType === 'add') {
           await addPet(petData);
@@ -98,12 +70,12 @@ export default function PetForm({ actionType, onFormSubmit }: PetFormProps) {
           <Label htmlFor='owner'>Owner</Label>
           <Input
             id='owner'
-            {...register('owner', {
+            {...register('ownerName', {
               required: 'Owner name is required',
             })}
           />
-          {errors.owner && (
-            <p className='text-red-500'>{errors.owner.message}</p>
+          {errors.ownerName && (
+            <p className='text-red-500'>{errors.ownerName.message}</p>
           )}
         </div>
         <div className='space-y-1'>
