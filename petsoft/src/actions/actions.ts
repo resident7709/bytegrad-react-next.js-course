@@ -4,8 +4,6 @@ import { revalidatePath } from 'next/cache';
 
 import prisma from '@/lib/db';
 import { delay } from '@/lib/utils';
-import { Pet } from '@prisma/client';
-import { PetEssentials } from '@/lib/types';
 import { petFormSchema, petIdSchema } from '@/lib/validations';
 
 export async function addNewPet(pet: unknown) {
