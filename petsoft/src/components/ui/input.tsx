@@ -13,7 +13,7 @@ const Input = React.forwardRef<HTMLInputElement, React.ComponentProps<'input'>>(
           'w-full',
           'rounded-md',
           'border',
-          'border-zinc-200',
+          'border-zinc-400',
           'bg-transparent',
           'px-3',
           'py-1',
